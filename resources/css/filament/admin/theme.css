@@ -1,0 +1,55 @@
+
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+@source '../../../../app/Filament/**/*';
+@source '../../../../resources/views/filament/**/*';
+
+.fi-sidebar {
+    background-color: #2A7C13;
+}
+.fi-sidebar-group-label {
+    color: #FBE6C2 !important;
+}
+.fi-sidebar-item-label,
+.fi-sidebar-item-icon {
+    color: #FFFFFF !important;
+}
+.fi-sidebar .fi-sidebar-item.fi-active > a,
+.fi-sidebar .fi-sidebar-item.fi-active > button,
+.fi-sidebar .fi-sidebar-item.fi-active .fi-sidebar-item-btn {
+    background-color: #B7E4A8 !important;
+    border-radius: 10px;
+}
+.fi-sidebar .fi-sidebar-item.fi-active .fi-sidebar-item-label,
+.fi-sidebar .fi-sidebar-item.fi-active .fi-sidebar-item-icon {
+    color: #000000 !important;
+}
+
+
+.fi-sidebar .fi-sidebar-item:not(.fi-active) a,
+.fi-sidebar .fi-sidebar-item:not(.fi-active) button {
+    background-color: transparent !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+.fi-sidebar .fi-sidebar-item:not(.fi-active) a:hover,
+.fi-sidebar .fi-sidebar-item:not(.fi-active) button:hover {
+    background-color: #2A7C13 !important;
+    background: #2A7C13 !important;
+}
+
+
+.fi-ta-main:has(.fi-ta-header-ctn .fi-ta-header) {
+    position: relative;
+}
+.fi-ta-main:has(.fi-ta-header-ctn .fi-ta-header)
+.fi-ta-header-toolbar {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.fi-ta-main:has(.fi-ta-header-ctn .fi-ta-header)
+.fi-ta-header-ctn {
+    padding-right: 0rem;
+}
+
