@@ -1,14 +1,14 @@
 @extends('frontend.layouts.app')
 @section('title', 'Masuk - Panganku')
 @section('content')
-<div class="min-h-screen bg-gray-100 flex items-center justify-center px-4 py-10">
-    <div class="relative w-full bg-green-800 max-w-md rounded-2xl shadow-lg p-7">
-        <img src="{{ asset('images/LOGO.png') }}" alt="PANGANKU" class="h-20 w-auto mx-auto object-contain">
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
-        <h1 class="text-2xl font-bold text-center text-gray-800">Masuk</h1>
-        <p class="text-center text-gray-500 text-sm mt-2 mb-6">Masuk untuk mulai berbelanja di Panganku</p>
+<div class="min-h-screen bg-gray-100 flex items-center justify-center px-4 py-5">
+    <div class="w-full bg-green-800 max-w-md rounded-2xl shadow-lg p-4">
+        <img src="{{ asset('images/LOGO.png') }}" alt="PANGANKU" class="h-14 w-auto mx-auto object-contain mb-3">
+    <div class="w-full bg-white rounded-xl shadow p-6">
+        <h1 class="text-xl font-bold text-center text-gray-800">Masuk</h1>
+        <p class="text-center text-gray-500 text-xs mt-1 mb-5">Masuk untuk mulai berbelanja di Panganku</p>
         @if ($errors->any())
-            <div class="mb-5 bg-red-100 text-red-700 px-4 py-3 rounded-lg text-sm">
+            <div class="mb-4 bg-red-100 text-red-700 px-3 py-2 rounded-lg text-xs">
                 <ul class="list-disc list-inside">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -17,7 +17,7 @@
             </div>
         @endif
         @if (session('success'))
-            <div class="mb-5 bg-green-100 text-green-700 px-4 py-3 rounded-lg text-sm">
+            <div class="mb-4 bg-green-100 text-green-700 px-3 py-2 rounded-lg text-xs">
                 {{ session('success') }}
             </div>
         @endif

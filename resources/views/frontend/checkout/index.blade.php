@@ -82,19 +82,9 @@
                     if (!$dataProduk) {
                         continue;
                     }
-                    $promo = $dataProduk->promoAktif;
                     $hargaNormal = $dataProduk->harga;
-                    $hargaSaatIni = $hargaNormal;
-                    if ($promo){
-                        if ($promo->tipe_potongan === 'persentase') {
-                            $hargaSaatIni = $hargaNormal - ($hargaNormal * $promo->besar_potongan / 100);
-                        }else{
-                            $hargaSaatIni = $hargaNormal - $promo->besar_potongan;
-                        }
-                        $hargaSaatIni = max(0, $hargaSaatIni);
-                    }
                     $jumlah = $item['jumlah'] ?? 0;
-                    $subtotalProduk = $hargaSaatIni * $jumlah;
+                    $subtotalProduk = $hargaNormal * $jumlah;
                     $subtotal += $subtotalProduk;
                 @endphp
                 <div class="py-5 first:pt-0 last:pb-0">
@@ -120,12 +110,7 @@
                             @endif
                             <p class="text-sm text-gray-500 mt-1">{{ $jumlah }} produk</p>
                             <div class="mt-2">
-                                @if ($promo)
-                                    <p class="text-sm md:text-base font-bold text-green-600">Rp {{ number_format($hargaSaatIni, 0, ',', '.') }}</p>
-                                    <p class="text-xs text-gray-400 line-through">Rp {{ number_format($hargaNormal, 0, ',', '.') }}</p>
-                                @else
-                                    <p class="text-sm md:text-base font-bold text-green-600">Rp {{ number_format($hargaNormal, 0, ',', '.') }}</p>
-                                @endif
+                                <p class="text-sm md:text-base font-bold text-green-600">Rp {{ number_format($hargaNormal, 0, ',', '.') }}</p>
                             </div>
                         </div>
                         <div class="text-right flex-shrink-0">
@@ -238,10 +223,6 @@
             <div class="ringkasan-baris">
                 <span>Subtotal</span>
                 <strong>Rp {{ number_format($subtotal, 0, ',', '.') }}</strong>
-            </div>
-            <div class="ringkasan-baris">
-                <span>Diskon</span>
-                <strong>- Rp {{ number_format($totalDiskon, 0, ',', '.') }}</strong>
             </div>
             <div class="ringkasan-baris">
                 <span>Ongkos Kirim</span>

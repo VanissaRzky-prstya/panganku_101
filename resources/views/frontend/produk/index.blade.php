@@ -85,19 +85,6 @@
         @if ($produk->count())
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
                 @foreach ($produk as $produkItem)
-                    @php
-                        $promoProduk = $produkItem->promoAktif;
-                        $hargaAwal = $produkItem->harga;
-                        $hargaPromo = $hargaAwal;
-                        if ($promoProduk){
-                            if ($promoProduk->tipe_potongan === 'persentase'){
-                                $hargaPromo = $hargaAwal - ($hargaAwal * $promoProduk->besar_potongan / 100);
-                            }else{
-                                $hargaPromo = $hargaAwal - $promoProduk->besar_potongan;
-                            }
-                            $hargaPromo = max(0, $hargaPromo);
-                        }
-                    @endphp
                     <div class="bg-white text-black rounded-xl overflow-hidden shadow-lg transition duration-300 hover:-translate-y-1 hover:shadow-xl flex flex-col h-full">
                         <a href="{{ route('produk.detail', $produkItem->slug) }}" class="block flex-1">
                             <div class="relative aspect-square bg-gray-100 overflow-hidden">
@@ -107,30 +94,15 @@
                                 @else
                                     <div class="w-full h-full flex items-center justify-center text-gray-400 text-sm">Tidak ada foto</div>
                                 @endif
-                                @if ($promoProduk)
-                                    @php
-                                        if ($promoProduk->tipe_potongan === 'persentase'){
-                                            $persentasePromo = $promoProduk->besar_potongan;
-                                        }else{
-                                            $persentasePromo = $hargaAwal > 0 ? round(($promoProduk->besar_potongan / $hargaAwal) * 100) : 0;
-                                        }
-                                    @endphp
-                                    <div class="absolute top-2 left-2 z-10 bg-green-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-md whitespace-nowrap">
-                                        {{ number_format($persentasePromo, 0) }}% OFF
-                                    </div>
-                                @endif
                             </div>
                             <div class="px-3 pt-3 pb-2">
                                 <h2 class="text-sm font-medium leading-snug line-clamp-2 h-[40px] overflow-hidden" title="{{ $produkItem->nama_produk }}">
                                     {{ $produkItem->nama_produk }}
                                 </h2>
                                 <div class="mt-2 h-[48px] flex flex-col justify-start">
-                                    @if ($promoProduk)
-                                        <p class="text-base font-bold text-green-600 leading-5 whitespace-nowrap">Rp {{ number_format($hargaPromo, 0, ',', '.') }}</p>
-                                        <p class="mt-0.5 text-xs text-gray-400 line-through leading-4 whitespace-nowrap">Rp {{ number_format($hargaAwal, 0, ',', '.') }}</p>
-                                    @else
-                                        <p class="text-base font-bold text-green-600 leading-5 whitespace-nowrap">Rp {{ number_format($hargaAwal, 0, ',', '.') }}</p>
-                                    @endif
+                                    <p class="text-base font-bold text-green-600 leading-5 whitespace-nowrap">
+                                        Rp {{ number_format($produkItem->harga, 0, ',', '.') }}
+                                    </p>
                                 </div>
                             </div>
                         </a>
@@ -176,8 +148,8 @@
                     <img src="{{ asset('storage/images/tanda_tanya.png') }}" alt="Tidak ditemukan" class="w-50 h-60 object-contain">
                 </div>
                 @if ($search ?? null)
-                    <h2 class="text-2xl md:text-3xl font-bold text-white">Produk tidak ditemukan</h2>
-                    <p class="mt-3 text-gray-400 text-sm md:text-base">Kami tidak menemukan produk dengan kata pencarian
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Produk tidak ditemukan</h2>
+                    <p class="mt-3 text-gray-600 text-sm md:text-base">Kami tidak menemukan produk dengan kata pencarian
                         <span class="text-white font-semibold">"{{ $search }}"</span>
                     </p>
                     @if ($saranPencarian)

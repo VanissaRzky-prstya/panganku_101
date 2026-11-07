@@ -146,9 +146,8 @@
         @endif
         <div id="notifikasi-perubahan-harga" class="hidden mb-6 p-4 rounded-xl bg-yellow-50 border border-yellow-200 text-yellow-700">
             <p class="font-semibold">Harga produk berubah</p>
-            <p class="mt-1 text-sm text-yellow-700/80">Harga atau promo salah satu produk di keranjang telah berubah, Silakan periksa harga terbaru sebelum melanjutkan belanja</p>
+            <p class="mt-1 text-sm text-yellow-700/80">Harga salah satu produk telah berubah. Mohon periksa harga terbaru sebelum melanjutkan belanja</p>
         </div>
-
         @if (count($keranjang) > 0)
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2">
@@ -180,21 +179,11 @@
                                     if (!$produkItem){
                                         continue;
                                     }
-                                    $promoProduk = $produkItem->promoAktif;
                                     $hargaAwal = $produkItem->harga;
-                                    $hargaPromo = $hargaAwal;
-                                    if ($promoProduk){
-                                        if ($promoProduk->tipe_potongan === 'persentase'){
-                                            $hargaPromo = $hargaAwal - ($hargaAwal * $promoProduk->besar_potongan / 100);
-                                        }else{
-                                            $hargaPromo = $hargaAwal - $promoProduk->besar_potongan;
-                                        }
-                                        $hargaPromo = max(0, $hargaPromo);
-                                    }
                                     $jumlah = $item['jumlah'];
-                                    $subtotal = $hargaPromo * $jumlah;
+                                    $subtotal = $hargaAwal * $jumlah;
                                 @endphp
-                                <div class="py-5" data-produk-id="{{ $produkItem->id }}" data-harga-saat-ini="{{ $hargaPromo }}" data-jumlah="{{ $jumlah }}">
+                                <div class="py-5" data-produk-id="{{ $produkItem->id }}" data-harga-saat-ini="{{ $hargaAwal }}" data-jumlah="{{ $jumlah }}">
                                     <div class="flex gap-4">
                                         <a href="{{ route('produk.detail', $produkItem->slug) }}" class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100">
                                             @if ($produkItem->foto_produk)
@@ -203,7 +192,6 @@
                                                 <div class="w-full h-full flex items-center justify-center text-gray-400 text-xs">Tidak ada foto</div>
                                             @endif
                                         </a>
-
                                         <div class="flex-1 min-w-0">
                                             <div class="flex items-start justify-between gap-3">
                                                 <div>
@@ -218,14 +206,6 @@
                                                 <button type="button" class="tombol-hapus text-gray-400 hover:text-red-500 transition text-xl leading-none" data-produk-id="{{ $produkItem->id }}" title="Hapus produk">
                                                     ×
                                                 </button>
-                                            </div>
-                                            <div class="bagian-harga mt-2">
-                                                @if ($promoProduk)
-                                                    <p class="harga-sekarang text-sm md:text-base font-bold text-green-600">Rp {{ number_format($hargaPromo, 0, ',', '.') }}</p>
-                                                    <p class="harga-normal text-xs text-gray-400 line-through">Rp {{ number_format($hargaAwal, 0, ',', '.') }}</p>
-                                                @else
-                                                    <p class="harga-sekarang text-sm md:text-base font-bold text-green-600">Rp {{ number_format($hargaAwal, 0, ',', '.') }}</p>
-                                                @endif
                                             </div>
                                             <div class="mt-3 flex items-center justify-between gap-4">
                                                 <div class="kontrol-jumlah flex items-center border border-gray-200 rounded-lg overflow-hidden">
@@ -258,19 +238,10 @@
                             $jumlahItem = 0;
                             foreach ($keranjang as $produkId => $item){
                                 $produkItem = $produk->get($produkId);
-                                if (!$produkItem){continue;}
-                                $promoProduk = $produkItem->promoAktif;
-                                $hargaAwal = $produkItem->harga;
-                                $hargaSaatIni = $hargaAwal;
-                                if ($promoProduk){
-                                    if ($promoProduk->tipe_potongan === 'persentase'){
-                                        $hargaSaatIni = $hargaAwal - ($hargaAwal * $promoProduk->besar_potongan / 100);
-                                    }else{
-                                        $hargaSaatIni = $hargaAwal - $promoProduk->besar_potongan;
-                                    }
-                                    $hargaSaatIni = max(0, $hargaSaatIni);
+                                if (!$produkItem){
+                                    continue;
                                 }
-                                $totalHarga += $hargaSaatIni * $item['jumlah'];
+                                $totalHarga += $produkItem->harga * $item['jumlah'];
                                 $jumlahItem += $item['jumlah'];
                             }
                         @endphp

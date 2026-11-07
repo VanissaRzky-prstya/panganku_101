@@ -91,7 +91,7 @@
                         <div class="flex-1 min-w-0">
                             <h3 class="text-sm font-semibold text-gray-800">{{ $item->produk->nama_produk ?? 'Produk' }}</h3>
                             <p class="text-xs text-gray-500 mt-2">
-                                {{ $item->qty }} × Rp {{ number_format($item->harga_setelah_diskon ?? $item->harga_asli ?? 0, 0, ',', '.') }}
+                                {{ $item->qty }} × Rp {{ number_format($item->harga_asli ?? 0, 0, ',', '.') }}
                             </p>
                         </div>
                         <div class="text-right shrink-0">
